@@ -1,11 +1,9 @@
 package fr.freshperf.proxmox4j.entities.nodes.node.qemu;
 
-import com.google.gson.JsonObject;
+import fr.freshperf.proxmox4j.entities.PveTask;
 import fr.freshperf.proxmox4j.request.ProxmoxHttpClient;
 import fr.freshperf.proxmox4j.request.ProxmoxRequest;
-
-import java.util.HashMap;
-import java.util.Map;
+import fr.freshperf.proxmox4j.request.TaskResponseTransformer;
 
 public record PveQemuVm(ProxmoxHttpClient client, String nodeName, int vmid) {
 
@@ -32,80 +30,88 @@ public record PveQemuVm(ProxmoxHttpClient client, String nodeName, int vmid) {
     /**
      * Starts the VM
      */
-    public ProxmoxRequest<JsonObject> start() {
-        return new ProxmoxRequest<>(() -> 
+    public ProxmoxRequest<PveTask> start() {
+        return new ProxmoxRequest<>(() ->
             client.post("nodes/" + nodeName + "/qemu/" + vmid + "/status/start")
-                .execute()
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
         );
     }
 
     /**
      * Stops the VM
      */
-    public ProxmoxRequest<JsonObject> stop() {
-        return new ProxmoxRequest<>(() -> 
+    public ProxmoxRequest<PveTask> stop() {
+        return new ProxmoxRequest<>(() ->
             client.post("nodes/" + nodeName + "/qemu/" + vmid + "/status/stop")
-                .execute()
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
         );
     }
 
     /**
      * Shuts down the VM
      */
-    public ProxmoxRequest<JsonObject> shutdown() {
-        return new ProxmoxRequest<>(() -> 
+    public ProxmoxRequest<PveTask> shutdown() {
+        return new ProxmoxRequest<>(() ->
             client.post("nodes/" + nodeName + "/qemu/" + vmid + "/status/shutdown")
-                .execute()
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
         );
     }
 
     /**
      * Resets the VM
      */
-    public ProxmoxRequest<JsonObject> reset() {
-        return new ProxmoxRequest<>(() -> 
+    public ProxmoxRequest<PveTask> reset() {
+        return new ProxmoxRequest<>(() ->
             client.post("nodes/" + nodeName + "/qemu/" + vmid + "/status/reset")
-                .execute()
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
         );
     }
 
     /**
      * Suspends the VM
      */
-    public ProxmoxRequest<JsonObject> suspend() {
-        return new ProxmoxRequest<>(() -> 
+    public ProxmoxRequest<PveTask> suspend() {
+        return new ProxmoxRequest<>(() ->
             client.post("nodes/" + nodeName + "/qemu/" + vmid + "/status/suspend")
-                .execute()
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
         );
     }
 
     /**
      * Resumes the VM
      */
-    public ProxmoxRequest<JsonObject> resume() {
-        return new ProxmoxRequest<>(() -> 
+    public ProxmoxRequest<PveTask> resume() {
+        return new ProxmoxRequest<>(() ->
             client.post("nodes/" + nodeName + "/qemu/" + vmid + "/status/resume")
-                .execute()
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
         );
     }
 
     /**
      * Reboots the VM
      */
-    public ProxmoxRequest<JsonObject> reboot() {
-        return new ProxmoxRequest<>(() -> 
+    public ProxmoxRequest<PveTask> reboot() {
+        return new ProxmoxRequest<>(() ->
             client.post("nodes/" + nodeName + "/qemu/" + vmid + "/status/reboot")
-                .execute()
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
         );
     }
 
     /**
      * Deletes the VM
      */
-    public ProxmoxRequest<JsonObject> delete() {
-        return new ProxmoxRequest<>(() -> 
+    public ProxmoxRequest<PveTask> delete() {
+        return new ProxmoxRequest<>(() ->
             client.delete("nodes/" + nodeName + "/qemu/" + vmid)
-                .execute()
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
         );
     }
 }
