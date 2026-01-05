@@ -1,4 +1,4 @@
-package fr.freshperf.proxmox4j.entities.nodes.node.qemu.firewall;
+package fr.freshperf.proxmox4j.entities.nodes.node.qemu.firewall.ipset;
 
 import java.util.HashMap;
 import java.util.Map;
