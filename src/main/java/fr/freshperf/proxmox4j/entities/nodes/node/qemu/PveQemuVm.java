@@ -1,11 +1,16 @@
 package fr.freshperf.proxmox4j.entities.nodes.node.qemu;
 
 import fr.freshperf.proxmox4j.entities.PveTask;
+import fr.freshperf.proxmox4j.entities.nodes.node.qemu.firewall.PveQemuFirewall;
 import fr.freshperf.proxmox4j.request.ProxmoxHttpClient;
 import fr.freshperf.proxmox4j.request.ProxmoxRequest;
 import fr.freshperf.proxmox4j.request.TaskResponseTransformer;
 
 public record PveQemuVm(ProxmoxHttpClient client, String nodeName, int vmid) {
+
+    public PveQemuFirewall firewall() {
+        return new PveQemuFirewall(client, nodeName, vmid);
+    }
 
     /**
      * Gets the current VM status
@@ -183,31 +188,6 @@ public record PveQemuVm(ProxmoxHttpClient client, String nodeName, int vmid) {
         }
         return new ProxmoxRequest<>(() ->
             client.put("nodes/" + nodeName + "/qemu/" + vmid + "/config")
-                .params(options.toParams())
-                .transformer(new TaskResponseTransformer())
-                .execute(PveTask.class)
-        );
-    }
-
-    /**
-     * Gets firewall options for this VM
-     */
-    public ProxmoxRequest<PveQemuFirewallOptions> getFirewallOptions() {
-        return new ProxmoxRequest<>(() ->
-            client.get("nodes/" + nodeName + "/qemu/" + vmid + "/firewall/options")
-                .execute(PveQemuFirewallOptions.class)
-        );
-    }
-
-    /**
-     * Updates firewall options (PUT, synchronous)
-     */
-    public ProxmoxRequest<PveTask> updateFirewallOptions(PveQemuFirewallOptionsUpdate options) {
-        if (options == null) {
-            throw new IllegalArgumentException("options cannot be null");
-        }
-        return new ProxmoxRequest<>(() ->
-            client.put("nodes/" + nodeName + "/qemu/" + vmid + "/firewall/options")
                 .params(options.toParams())
                 .transformer(new TaskResponseTransformer())
                 .execute(PveTask.class)

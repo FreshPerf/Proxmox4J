@@ -1,4 +1,4 @@
-package fr.freshperf.proxmox4j.entities.nodes.node.qemu;
+package fr.freshperf.proxmox4j.entities.nodes.node.qemu.firewall;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -81,4 +81,3 @@ public class PveQemuFirewallOptions {
                 '}';
     }
 }
-
