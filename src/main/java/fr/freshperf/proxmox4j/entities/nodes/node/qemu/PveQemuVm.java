@@ -138,4 +138,24 @@ public record PveQemuVm(ProxmoxHttpClient client, String nodeName, int vmid) {
                 .execute(PveTask.class)
         );
     }
+
+    /**
+     * Resizes a disk of the VM. Size may be absolute (e.g. "20G") or relative (e.g. "+10G").
+     * See {@link PveQemuResizeOptions} for optional parameters.
+     */
+    public ProxmoxRequest<PveTask> resize(String disk, String size) {
+        return resize(disk, size, null);
+    }
+
+    /**
+     * Resizes a disk of the VM with optional parameters.
+     */
+    public ProxmoxRequest<PveTask> resize(String disk, String size, PveQemuResizeOptions options) {
+        return new ProxmoxRequest<>(() ->
+            client.put("nodes/" + nodeName + "/qemu/" + vmid + "/resize")
+                .params(PveQemuResizeOptions.toParams(disk, size, options))
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
+        );
+    }
 }
