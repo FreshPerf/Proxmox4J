@@ -158,4 +158,35 @@ public record PveQemuVm(ProxmoxHttpClient client, String nodeName, int vmid) {
                 .execute(PveTask.class)
         );
     }
+
+    /**
+     * Update VM configuration (asynchronous, POST)
+     */
+    public ProxmoxRequest<PveTask> updateConfig(PveQemuConfigUpdateOptions options) {
+        if (options == null) {
+            throw new IllegalArgumentException("options cannot be null");
+        }
+        System.out.println(options.toParams());
+        return new ProxmoxRequest<>(() ->
+            client.post("nodes/" + nodeName + "/qemu/" + vmid + "/config")
+                .params(options.toParams())
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
+        );
+    }
+
+    /**
+     * Update VM configuration (synchronous, PUT)
+     */
+    public ProxmoxRequest<PveTask> updateConfigSync(PveQemuConfigUpdateOptions options) {
+        if (options == null) {
+            throw new IllegalArgumentException("options cannot be null");
+        }
+        return new ProxmoxRequest<>(() ->
+            client.put("nodes/" + nodeName + "/qemu/" + vmid + "/config")
+                .params(options.toParams())
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
+        );
+    }
 }
