@@ -114,5 +114,28 @@ public record PveQemuVm(ProxmoxHttpClient client, String nodeName, int vmid) {
                 .execute(PveTask.class)
         );
     }
-}
 
+    /**
+     * Clones the VM/template to a new VMID.
+     * Required: newid. Optional parameters are provided via {@link PveQemuCloneOptions}.
+     */
+    public ProxmoxRequest<PveTask> cloneVm(int newVmid) {
+        return cloneVm(newVmid, null);
+    }
+
+    /**
+     * Clones the VM/template to a new VMID with optional settings.
+     */
+    public ProxmoxRequest<PveTask> cloneVm(int newVmid, PveQemuCloneOptions options) {
+        if (newVmid < 100) {
+            throw new IllegalArgumentException("newVmid must be >= 100");
+        }
+
+        return new ProxmoxRequest<>(() ->
+            client.post("nodes/" + nodeName + "/qemu/" + vmid + "/clone")
+                .params(PveQemuCloneOptions.toParams(newVmid, options))
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
+        );
+    }
+}
