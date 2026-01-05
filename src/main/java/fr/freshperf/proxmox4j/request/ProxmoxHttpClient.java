@@ -171,9 +171,9 @@ public class ProxmoxHttpClient {
                     url
                 );
             }
-            System.out.println("|-----");
-            System.out.println("|UNEXTRACTED DATA :\n|" + parsedResponse);
-            System.out.println("|-----");
+            //System.out.println("|-----");
+            //System.out.println("|UNEXTRACTED DATA :\n|" + parsedResponse);
+            //System.out.println("|-----");
             JsonElement dataElement = extractDataFromResponse(parsedResponse);
             
             ResponseTransformer transformer = builder.transformer != null ? builder.transformer : defaultTransformer;
@@ -228,9 +228,9 @@ public class ProxmoxHttpClient {
                     url
                 );
             }
-            System.out.println("|-----");
-            System.out.println("|UNEXTRACTED DATA :\n|" + parsedResponse);
-            System.out.println("|-----");
+            //System.out.println("|-----");
+            //System.out.println("|UNEXTRACTED DATA :\n|" + parsedResponse);
+            //System.out.println("|-----");
             JsonElement dataElement = extractDataFromResponse(parsedResponse);
             
             Class<?> elementClass = extractElementClass(typeToken);

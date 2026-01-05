@@ -1,0 +1,22 @@
+package fr.freshperf.proxmox4j.entities.nodes.node.qemu;
+
+public class PveQemuHa {
+
+    private int managed;
+
+    public int getManaged() {
+        return managed;
+    }
+
+    public boolean isManaged() {
+        return managed == 1;
+    }
+
+    @Override
+    public String toString() {
+        return "PveQemuHa{" +
+                "managed=" + managed +
+                '}';
+    }
+}
+

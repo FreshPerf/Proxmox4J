@@ -1,6 +1,7 @@
 package fr.freshperf.proxmox4j;
 
 import fr.freshperf.proxmox4j.entities.PveVersion;
+import fr.freshperf.proxmox4j.entities.access.PveAccess;
 import fr.freshperf.proxmox4j.entities.cluster.PveCluster;
 import fr.freshperf.proxmox4j.entities.nodes.PveNodes;
 import fr.freshperf.proxmox4j.request.ProxmoxHttpClient;
@@ -16,6 +17,7 @@ public class Proxmox {
 
     private final PveCluster pveCluster;
     private final PveNodes pveNodes;
+    private final PveAccess pveAccess;
 
     private Proxmox(String host, int port, String apikey, SecurityConfig securityConfig) {
         this.httpClient = new ProxmoxHttpClient(
@@ -24,6 +26,7 @@ public class Proxmox {
 
         this.pveCluster = new PveCluster(httpClient);
         this.pveNodes = new PveNodes(httpClient);
+        this.pveAccess = new PveAccess(httpClient);
     }
 
     /**
@@ -63,6 +66,10 @@ public class Proxmox {
 
     public PveNodes getNodes() {
         return pveNodes;
+    }
+
+    public PveAccess getAccess() {
+        return pveAccess;
     }
 
 }
