@@ -2,6 +2,7 @@ package fr.freshperf.proxmox4j.entities.nodes.node.qemu;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Options for cloning a QEMU VM/template.
@@ -73,8 +74,8 @@ public class PveQemuCloneOptions {
         return this;
     }
 
-    public static Map<String, String> toParams(int newVmid, PveQemuCloneOptions options) {
-        Map<String, String> params = new HashMap<>();
+    public static Map<String, Object> toParams(int newVmid, PveQemuCloneOptions options) {
+        Map<String, Object> params = new HashMap<>();
         params.put("newid", String.valueOf(newVmid));
 
         if (options == null) {

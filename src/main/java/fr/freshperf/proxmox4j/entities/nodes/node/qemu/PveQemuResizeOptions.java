@@ -2,6 +2,7 @@ package fr.freshperf.proxmox4j.entities.nodes.node.qemu;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -41,11 +42,11 @@ public class PveQemuResizeOptions {
         return this;
     }
 
-    public static Map<String, String> toParams(String disk, String size, PveQemuResizeOptions options) {
+    public static Map<String, Object> toParams(String disk, String size, PveQemuResizeOptions options) {
         validateDisk(disk);
         validateSize(size);
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("disk", disk);
         params.put("size", size);
 

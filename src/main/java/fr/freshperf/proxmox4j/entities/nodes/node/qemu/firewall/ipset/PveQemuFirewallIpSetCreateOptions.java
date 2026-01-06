@@ -2,6 +2,7 @@ package fr.freshperf.proxmox4j.entities.nodes.node.qemu.firewall.ipset;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Options for creating/renaming an IP set (POST /nodes/{node}/qemu/{vmid}/firewall/ipset).
@@ -16,8 +17,8 @@ public class PveQemuFirewallIpSetCreateOptions {
         return new PveQemuFirewallIpSetCreateOptions();
     }
 
-    public Map<String, String> toParams(String name) {
-        Map<String, String> params = new HashMap<>();
+    public Map<String, Object> toParams(String name) {
+        Map<String, Object> params = new HashMap<>();
         params.put("name", name);
         put(params, "comment", comment);
         put(params, "digest", digest);
@@ -29,7 +30,7 @@ public class PveQemuFirewallIpSetCreateOptions {
     public PveQemuFirewallIpSetCreateOptions digest(String digest) { this.digest = digest; return this; }
     public PveQemuFirewallIpSetCreateOptions rename(String rename) { this.rename = rename; return this; }
 
-    private static void put(Map<String, String> params, String key, String value) {
+    private static void put(Map<String, Object> params, String key, String value) {
         if (value != null && !value.isBlank()) {
             params.put(key, value);
         }

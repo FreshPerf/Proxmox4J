@@ -280,12 +280,12 @@ public class ProxmoxHttpClient {
         return jsonElement;
     }
 
-    private String buildUrl(String path, Map<String, String> params) {
+    private String buildUrl(String path, Map<String, Object> params) {
         StringBuilder url = new StringBuilder(baseUrl + path);
         if (!params.isEmpty()) {
             String query = params.entrySet().stream()
                     .map(e -> URLEncoder.encode(e.getKey(), StandardCharsets.UTF_8)
-                            + "=" + URLEncoder.encode(e.getValue(), StandardCharsets.UTF_8))
+                            + "=" + URLEncoder.encode(e.getValue().toString(), StandardCharsets.UTF_8))
                     .collect(Collectors.joining("&"));
             url.append("?").append(query);
         }
@@ -296,7 +296,7 @@ public class ProxmoxHttpClient {
         private final ProxmoxHttpClient client;
         private final String method;
         private final String path;
-        private final Map<String, String> params;
+        private final Map<String, Object> params;
         private String body;
         private ResponseTransformer transformer;
 
@@ -307,12 +307,12 @@ public class ProxmoxHttpClient {
             this.params = new HashMap<>();
         }
 
-        public RequestBuilder param(String key, String value) {
+        public RequestBuilder param(String key, Object value) {
             this.params.put(key, value);
             return this;
         }
 
-        public RequestBuilder params(Map<String, String> params) {
+        public RequestBuilder params(Map<String, Object> params) {
             this.params.putAll(params);
             return this;
         }

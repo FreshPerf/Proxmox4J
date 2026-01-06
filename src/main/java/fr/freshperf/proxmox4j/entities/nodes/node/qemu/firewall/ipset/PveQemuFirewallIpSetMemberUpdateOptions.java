@@ -16,8 +16,8 @@ public class PveQemuFirewallIpSetMemberUpdateOptions {
         return new PveQemuFirewallIpSetMemberUpdateOptions();
     }
 
-    public Map<String, String> toParams(String cidr) {
-        Map<String, String> params = new HashMap<>();
+    public Map<String, Object> toParams(String cidr) {
+        Map<String, Object> params = new HashMap<>();
         params.put("cidr", cidr);
         put(params, "comment", comment);
         putBool(params, "nomatch", nomatch);
@@ -29,13 +29,13 @@ public class PveQemuFirewallIpSetMemberUpdateOptions {
     public PveQemuFirewallIpSetMemberUpdateOptions nomatch(Boolean nomatch) { this.nomatch = nomatch; return this; }
     public PveQemuFirewallIpSetMemberUpdateOptions digest(String digest) { this.digest = digest; return this; }
 
-    private static void put(Map<String, String> params, String key, String value) {
+    private static void put(Map<String, Object> params, String key, String value) {
         if (value != null && !value.isBlank()) {
             params.put(key, value);
         }
     }
 
-    private static void putBool(Map<String, String> params, String key, Boolean value) {
+    private static void putBool(Map<String, Object> params, String key, Boolean value) {
         if (value != null) {
             params.put(key, value ? "1" : "0");
         }

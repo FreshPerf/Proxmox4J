@@ -103,8 +103,8 @@ public class PveQemuConfigUpdateOptions {
         return new PveQemuConfigUpdateOptions();
     }
 
-    public Map<String, String> toParams() {
-        Map<String, String> params = new HashMap<>();
+    public Map<String, Object> toParams() {
+        Map<String, Object> params = new HashMap<>();
 
         putBool(params, "acpi", acpi);
         put(params, "affinity", affinity);
@@ -287,25 +287,25 @@ public class PveQemuConfigUpdateOptions {
     public PveQemuConfigUpdateOptions watchdog(String watchdog) { this.watchdog = watchdog; return this; }
 
     // Helpers
-    private static void put(Map<String, String> params, String key, String value) {
+    private static void put(Map<String, Object> params, String key, String value) {
         if (value != null && !value.isBlank()) {
             params.put(key, value);
         }
     }
 
-    private static void putBool(Map<String, String> params, String key, Boolean value) {
+    private static void putBool(Map<String, Object> params, String key, Boolean value) {
         if (value != null) {
             params.put(key, value ? "1" : "0");
         }
     }
 
-    private static void putInt(Map<String, String> params, String key, Integer value) {
+    private static void putInt(Map<String, Object> params, String key, Integer value) {
         if (value != null) {
             params.put(key, String.valueOf(value));
         }
     }
 
-    private static void putDouble(Map<String, String> params, String key, Double value) {
+    private static void putDouble(Map<String, Object> params, String key, Double value) {
         if (value != null) {
             params.put(key, String.valueOf(value));
         }

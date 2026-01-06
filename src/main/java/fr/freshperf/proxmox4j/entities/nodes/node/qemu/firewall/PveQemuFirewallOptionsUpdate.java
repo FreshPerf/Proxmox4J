@@ -25,8 +25,8 @@ public class PveQemuFirewallOptionsUpdate {
         return new PveQemuFirewallOptionsUpdate();
     }
 
-    public Map<String, String> toParams() {
-        Map<String, String> params = new HashMap<>();
+    public Map<String, Object> toParams() {
+        Map<String, Object> params = new HashMap<>();
         putBool(params, "dhcp", dhcp);
         putBool(params, "enable", enable);
         putBool(params, "ipfilter", ipfilter);
@@ -55,13 +55,13 @@ public class PveQemuFirewallOptionsUpdate {
     public PveQemuFirewallOptionsUpdate digest(String digest) { this.digest = digest; return this; }
     public PveQemuFirewallOptionsUpdate delete(String delete) { this.delete = delete; return this; }
 
-    private static void put(Map<String, String> params, String key, String value) {
+    private static void put(Map<String, Object> params, String key, String value) {
         if (value != null && !value.isBlank()) {
             params.put(key, value);
         }
     }
 
-    private static void putBool(Map<String, String> params, String key, Boolean value) {
+    private static void putBool(Map<String, Object> params, String key, Boolean value) {
         if (value != null) {
             params.put(key, value ? "1" : "0");
         }

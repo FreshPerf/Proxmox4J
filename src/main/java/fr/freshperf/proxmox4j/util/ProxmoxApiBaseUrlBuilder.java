@@ -1,6 +1,7 @@
 package fr.freshperf.proxmox4j.util;
 
 import fr.freshperf.proxmox4j.Proxmox;
+import fr.freshperf.proxmox4j.entities.nodes.node.qemu.PveQemuVmVncProxy;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -8,10 +9,12 @@ import java.nio.charset.StandardCharsets;
 
 public class ProxmoxApiBaseUrlBuilder {
 
-    public static String buildConsoleUrl(Proxmox proxmox, String nodeName, int vmid, String ticket) {
-        String url = proxmox.getHttpClient().getBaseUrl()
-                .replace("/api2/json/", "/?console=kvm&novnc=1&vmid="+vmid+"&node=" + nodeName + "&resize=off&vncticket="+URLEncoder.encode(ticket, StandardCharsets.UTF_8));
-        return url;
+    public static String buildConsoleUrl(Proxmox proxmox, String nodeName, int vmid, PveQemuVmVncProxy pveQemuVmVncProxy) {
+        return proxmox.getHttpClient().getBaseUrl()
+                .replace("/api2/json/",
+                        "/?console=kvm&novnc=1&vmid="+vmid+"&node=" + nodeName + "&vmid=" + vmid
+                                + "&path=api2/json/nodes/"+nodeName+"/qemu/"+vmid+"/vncwebsocket/port/"+
+                        pveQemuVmVncProxy.getPort()+"/vncticket/"+ URLEncoder.encode(pveQemuVmVncProxy.getTicket(), StandardCharsets.UTF_8));
     }
 
     public static String buildApiBaseUrl(String host, int port) {

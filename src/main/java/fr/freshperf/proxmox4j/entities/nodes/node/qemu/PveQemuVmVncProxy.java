@@ -1,6 +1,7 @@
 package fr.freshperf.proxmox4j.entities.nodes.node.qemu;
 
 import fr.freshperf.proxmox4j.Proxmox;
+import fr.freshperf.proxmox4j.request.ProxmoxRequest;
 import fr.freshperf.proxmox4j.util.ProxmoxApiBaseUrlBuilder;
 
 public class PveQemuVmVncProxy {
@@ -54,10 +55,6 @@ public class PveQemuVmVncProxy {
 
     public void setPort(int port) {
         this.port = port;
-    }
-
-    public String getConsoleUrl(Proxmox proxmox, String nodeName, int vmid) {
-        return ProxmoxApiBaseUrlBuilder.buildConsoleUrl(proxmox, nodeName, vmid, ticket);
     }
 
     @Override

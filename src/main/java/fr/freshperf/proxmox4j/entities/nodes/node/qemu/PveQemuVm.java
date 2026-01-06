@@ -6,9 +6,26 @@ import fr.freshperf.proxmox4j.request.ProxmoxHttpClient;
 import fr.freshperf.proxmox4j.request.ProxmoxRequest;
 import fr.freshperf.proxmox4j.request.TaskResponseTransformer;
 
-public record PveQemuVm(ProxmoxHttpClient client, String nodeName, int vmid) {
+public class PveQemuVm {
 
-    public PveQemuFirewall firewall() {
+    private final ProxmoxHttpClient client;
+    private final String nodeName;
+    private final int vmid;
+
+    private final PveQemuVmVnc pveQemuVmVnc;
+
+    public PveQemuVm(ProxmoxHttpClient client, String nodeName, int vmid) {
+        this.client = client;
+        this.nodeName = nodeName;
+        this.vmid = vmid;
+        this.pveQemuVmVnc = new PveQemuVmVnc(client, nodeName, vmid);
+    }
+
+    public PveQemuVmVnc getVnc() {
+        return pveQemuVmVnc;
+    }
+
+    public PveQemuFirewall getFirewall() {
         return new PveQemuFirewall(client, nodeName, vmid);
     }
 
@@ -21,14 +38,6 @@ public record PveQemuVm(ProxmoxHttpClient client, String nodeName, int vmid) {
                 .execute(PveQemuStatus.class)
         );
     }
-
-    public ProxmoxRequest<PveQemuVmVncProxy> getVncProxy() {
-        return new ProxmoxRequest<>(() ->
-            client.post("nodes/" + nodeName + "/qemu/" + vmid + "/vncproxy")
-                .execute(PveQemuVmVncProxy.class)
-        );
-    }
-
     /**
      * Gets the VM configuration
      */

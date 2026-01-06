@@ -39,7 +39,7 @@ public record PveQemuFirewallIpSet (ProxmoxHttpClient client, String nodeName, i
      */
     public ProxmoxRequest<PveTask> create(String name, PveQemuFirewallIpSetCreateOptions options) {
         requireNotBlank(name, "name cannot be null or blank");
-        Map<String, String> params = options != null ? options.toParams(name) : Map.of("name", name);
+        Map<String, Object> params = options != null ? options.toParams(name) : Map.of("name", name);
         return new ProxmoxRequest<>(() ->
             client.post(path("/ipset"))
                 .params(params)
@@ -56,7 +56,7 @@ public record PveQemuFirewallIpSet (ProxmoxHttpClient client, String nodeName, i
         requireNotBlank(newName, "newName cannot be null or blank");
         PveQemuFirewallIpSetCreateOptions effective = options != null ? options : PveQemuFirewallIpSetCreateOptions.builder();
         effective.rename(newName);
-        Map<String, String> params = effective.toParams(currentName);
+        Map<String, Object> params = effective.toParams(currentName);
         return new ProxmoxRequest<>(() ->
             client.post(path("/ipset"))
                 .params(params)
@@ -70,7 +70,7 @@ public record PveQemuFirewallIpSet (ProxmoxHttpClient client, String nodeName, i
      */
     public ProxmoxRequest<PveTask> delete(String name, Boolean force) {
         requireNotBlank(name, "name cannot be null or blank");
-        Map<String, String> params = force != null ? Map.of("force", force ? "1" : "0") : Map.of();
+        Map<String, Object> params = force != null ? Map.of("force", force ? "1" : "0") : Map.of();
         return new ProxmoxRequest<>(() ->
             client.delete(path("/ipset/" + name))
                 .params(params)
@@ -96,7 +96,7 @@ public record PveQemuFirewallIpSet (ProxmoxHttpClient client, String nodeName, i
     public ProxmoxRequest<PveTask> addMember(String name, String cidr, PveQemuFirewallIpSetMemberCreateOptions options) {
         requireNotBlank(name, "name cannot be null or blank");
         requireNotBlank(cidr, "cidr cannot be null or blank");
-        Map<String, String> params = options != null ? options.toParams(cidr) : Map.of("cidr", cidr);
+        Map<String, Object> params = options != null ? options.toParams(cidr) : Map.of("cidr", cidr);
         return new ProxmoxRequest<>(() ->
             client.post(path("/ipset/" + name))
                 .params(params)
@@ -140,7 +140,7 @@ public record PveQemuFirewallIpSet (ProxmoxHttpClient client, String nodeName, i
     public ProxmoxRequest<PveTask> deleteMember(String name, String cidr, String digest) {
         requireNotBlank(name, "name cannot be null or blank");
         requireNotBlank(cidr, "cidr cannot be null or blank");
-        Map<String, String> params = digest != null && !digest.isBlank() ? Map.of("digest", digest) : Map.of();
+        Map<String, Object> params = digest != null && !digest.isBlank() ? Map.of("digest", digest) : Map.of();
         return new ProxmoxRequest<>(() ->
             client.delete(path("/ipset/" + name + "/" + cidr))
                 .params(params)
