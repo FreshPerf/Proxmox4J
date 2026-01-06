@@ -3,12 +3,15 @@ package fr.freshperf.proxmox4j.util;
 import fr.freshperf.proxmox4j.Proxmox;
 
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class ProxmoxApiBaseUrlBuilder {
 
     public static String buildWssUrl(Proxmox proxmox, String nodeName, int vmid, int port, String ticket) {
-        return proxmox.getHttpClient().getBaseUrl().replaceFirst("^https?", "wss")
-                .replace("/api2/json/", "/api2/json/nodes/"+nodeName+"/qemu/"+vmid+"/vncwebsocket?port="+port+"&vncticket="+ticket);
+        String url = proxmox.getHttpClient().getBaseUrl().replaceFirst("^https?", "wss")
+                .replace("/api2/json/", "/api2/json/nodes/"+nodeName+"/qemu/"+vmid+"/vncwebsocket?port="+port+"&vncticket="+URLEncoder.encode(ticket, StandardCharsets.UTF_8));
+        return url;
     }
 
     public static String buildApiBaseUrl(String host, int port) {
