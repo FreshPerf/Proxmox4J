@@ -11,7 +11,7 @@ import fr.freshperf.proxmox4j.request.TaskResponseTransformer;
  */
 public record PveQemuFirewall (ProxmoxHttpClient client, String nodeName, int vmid) {
 
-    public PveQemuFirewallIpSet ipset() {
+    public PveQemuFirewallIpSet getIpSet() {
         return new PveQemuFirewallIpSet(client, nodeName, vmid);
     }
 
