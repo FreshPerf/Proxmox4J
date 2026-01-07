@@ -6,6 +6,9 @@ import fr.freshperf.proxmox4j.request.ProxmoxHttpClient;
 import fr.freshperf.proxmox4j.request.ProxmoxRequest;
 import fr.freshperf.proxmox4j.util.ProxmoxApiBaseUrlBuilder;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 public class PveQemuVmVnc {
 
     private final ProxmoxHttpClient client;
@@ -16,7 +19,6 @@ public class PveQemuVmVnc {
         this.client = client;
         this.nodeName = nodeName;
         this.vmid = vmid;
-
     }
 
     public ProxmoxRequest<PveQemuVmVncProxy> getVncProxy() {
@@ -26,17 +28,21 @@ public class PveQemuVmVnc {
         );
     }
 
-    public ProxmoxRequest<JsonElement> openVncWebsocket(PveQemuVmVncProxy vmVncProxy) {
-        return new ProxmoxRequest<JsonElement>(() ->
+    public String getVncWebsocketUrl() {
+        return ProxmoxApiBaseUrlBuilder.buildWebsocketUrl(client, nodeName, vmid);
+    }
+
+    public ProxmoxRequest<PveQemuVmVncWebsocket> openVncWebsocket(PveQemuVmVncProxy vmVncProxy) {
+        return new ProxmoxRequest<>(() ->
                 client.get("nodes/" + nodeName + "/qemu/" + vmid + "/vncwebsocket")
                         .param("port", vmVncProxy.getPort())
                         .param("vncticket", vmVncProxy.getTicket())
-                        .execute(JsonElement.class)
+                        .execute(PveQemuVmVncWebsocket.class)
         );
     }
 
-    public String getConsoleUrl(Proxmox proxmox, PveQemuVmVncProxy vmVncProxy) {
-        return ProxmoxApiBaseUrlBuilder.buildConsoleUrl(proxmox, nodeName, vmid, vmVncProxy);
+    public String getConsoleUrl(PveQemuVmVncProxy vmVncProxy) {
+        return ProxmoxApiBaseUrlBuilder.buildConsoleUrl(client, nodeName, vmid, vmVncProxy);
     }
 
 
