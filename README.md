@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3"></a>
-  <a href="#"><img src="https://img.shields.io/badge/release-1.0.0-green" alt="Maven Central"></a>
+  <a href="#"><img src="https://img.shields.io/badge/release-0.1.0-green" alt="Maven Central"></a>
   <a href="https://github.com/FreshPerf/Proxmox4J/issues"><img src="https://img.shields.io/github/issues/FreshPerf/Proxmox4J" alt="GitHub Issues"></a>
   <a href="https://github.com/FreshPerf/Proxmox4J/stargazers"><img src="https://img.shields.io/github/stars/FreshPerf/Proxmox4J" alt="GitHub Stars"></a>
   <a href="https://freshperf.fr"><img src="https://img.shields.io/badge/FreshPerf-v1.5-blue" alt="FreshPerf"></a>
@@ -98,7 +98,7 @@ Add the dependency to your `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'fr.freshperf:Proxmox4J:1.0.0'
+    implementation 'fr.freshperf:Proxmox4J:0.1.0'
 }
 ```
 
@@ -110,7 +110,7 @@ Add the dependency:
 <dependency>
     <groupId>fr.freshperf</groupId>
     <artifactId>Proxmox4J</artifactId>
-    <version>1.0.0</version>
+    <version>0.1.0</version>
 </dependency>
 ```
 
@@ -145,7 +145,7 @@ try {
     Proxmox proxmox = Proxmox.createWithPassword("pve.example.com", 8006, "root", "password");
     
     // With custom realm and security config
-    Proxmox proxmox = Proxmox.createWithPassword("192.168.1.10", 8006, "admin", "password", "ldap", SecurityConfig.insecure());
+    Proxmox proxmox = Proxmox.createWithPassword("192.168.1.10", 8006, "admin", "password", "pve", SecurityConfig.insecure());
 } catch (ProxmoxAPIError | InterruptedException e) {
     e.printStackTrace();
 }

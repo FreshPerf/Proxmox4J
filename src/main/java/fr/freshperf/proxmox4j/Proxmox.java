@@ -168,4 +168,13 @@ public class Proxmox {
         return pveAccess;
     }
 
+    /**
+     * Shuts down all shared thread resources gracefully.
+     * Should be called once before application shutdown.
+     * This method is static because threads are shared between all Proxmox instances.
+     */
+    public static void shutdownGlobalResources() {
+        ProxmoxRequest.shutdownGlobalThreadManagers();
+    }
+
 }
