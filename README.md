@@ -26,7 +26,9 @@ Proxmox4J is a Java library that provides an object-oriented wrapper around the 
 
 - **Comprehensive API Coverage** - Manage cluster resources, nodes, QEMU virtual machines, LXC containers, storage, and access controls (users, groups, roles, ACLs)
 - **Fluent API Design** - Clean, chainable request system for intuitive interaction with the Proxmox API
+- **Flexible Authentication** - Support for both API tokens and username/password authentication
 - **Asynchronous Task Handling** - Built-in support for long-running operations with `waitForCompletion()` and `onCompletion()` callback methods
+- **Automatic Retry Support** - Configurable retry logic with customizable delays for transient failures
 - **Robust Error Handling** - Clear and informative `ProxmoxAPIError` exceptions for easier debugging
 - **Type-Safe Entities** - Maps Proxmox API responses to strongly-typed Java objects
 - **Configurable Security** - Easily manage SSL/TLS certificate and hostname verification for different environments
@@ -116,7 +118,9 @@ Add the dependency:
 
 ### Creating a Client
 
-First, create a `Proxmox` client instance. You need your Proxmox host, API port (usually 8006), and an API token.
+First, create a `Proxmox` client instance. You can use either an API token (recommended) or username/password authentication.
+
+#### Using API Token (Recommended)
 
 ```java
 import fr.freshperf.proxmox4j.Proxmox;
@@ -127,6 +131,24 @@ Proxmox proxmox = Proxmox.create("pve.example.com", 8006, "your-api-token");
 
 // For development/testing with self-signed certificates
 Proxmox proxmoxDev = Proxmox.create("192.168.1.10", 8006, "your-api-token", SecurityConfig.insecure());
+```
+
+#### Using Username/Password
+
+```java
+import fr.freshperf.proxmox4j.Proxmox;
+import fr.freshperf.proxmox4j.SecurityConfig;
+import fr.freshperf.proxmox4j.throwable.ProxmoxAPIError;
+
+try {
+    // With default PAM realm
+    Proxmox proxmox = Proxmox.createWithPassword("pve.example.com", 8006, "root", "password");
+    
+    // With custom realm and security config
+    Proxmox proxmox = Proxmox.createWithPassword("192.168.1.10", 8006, "admin", "password", "ldap", SecurityConfig.insecure());
+} catch (ProxmoxAPIError | InterruptedException e) {
+    e.printStackTrace();
+}
 ```
 
 ### Basic Operations
@@ -274,6 +296,11 @@ SecurityConfig customConfig = SecurityConfig.builder()
         .disableSslVerification()
         .enableHostnameVerification()
         .build();
+
+// Or disable all security checks at once
+SecurityConfig allDisabled = SecurityConfig.builder()
+        .disableAll()
+        .build();
 ```
 
 ## Documentation
@@ -281,7 +308,9 @@ SecurityConfig customConfig = SecurityConfig.builder()
 For detailed documentation, please refer to the [Wiki](wiki/Home):
 
 - [Getting Started](wiki/Getting-Started)
+- [Authentication](wiki/Authentication)
 - [Client Configuration](wiki/Client-Configuration)
+- [Request API](wiki/Request-API)
 - [VM Management](wiki/VM-Management)
 - [Container Management](wiki/Container-Management)
 - [Cluster Operations](wiki/Cluster-Operations)
@@ -347,5 +376,5 @@ This project is licensed under the GNU General Public License v3.0. See the [LIC
 
 ---
 
-<p align="center">Maintainted with with 🩵 by the <a href="https://freshperf.fr" target="_blank">freshperf.fr</a> Team.</p>
+<p align="center">Maintainted with with 🩵 by the <a href="https://freshperf.fr" target="_blank">FreshPerf.fr</a> Team.</p>
 

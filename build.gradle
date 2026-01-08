@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group = 'fr.freshperf'
@@ -11,6 +12,7 @@ repositories {
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.13.2'
+    implementation 'org.java-websocket:Java-WebSocket:1.5.7'
     
     // Testing dependencies
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
@@ -20,6 +22,24 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:5.8.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.8.0'
     testImplementation 'org.assertj:assertj-core:3.24.2'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'Proxmox4J'
+                description = 'Interact with Proxmox and Java the right way.'
+                url = 'https://freshperf.fr'
+                licenses {
+                    license {
+                        name = 'GNU General Public License v3.0'
+                        url = 'https://raw.githubusercontent.com/FreshPerf/Proxmox4J/refs/heads/main/LICENSE'
+                    }
+                }
+            }
+        }
+    }
 }
 
 test {

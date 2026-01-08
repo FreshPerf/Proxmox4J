@@ -35,13 +35,17 @@ public class ProxmoxHttpClient {
     private final String apiToken;
     private final String ticket;
     private final String csrfToken;
-    private final HttpClient client;
+    private HttpClient client;
     private final String baseUrl;
-    private final Gson gson;
-    private final ProxmoxResponseTransformer defaultTransformer;
+    private Gson gson;
+    private ProxmoxResponseTransformer defaultTransformer;
 
     public String getBaseUrl() {
         return baseUrl;
+    }
+
+    public String getTicket() {
+        return ticket;
     }
 
     public ProxmoxHttpClient(String baseUrl, String apiToken) {
@@ -64,7 +68,7 @@ public class ProxmoxHttpClient {
         initializeClient(securityConfig);
     }
 
-    static ProxmoxHttpClient createUnauthenticated(String baseUrl, SecurityConfig securityConfig) {
+    public static ProxmoxHttpClient createUnauthenticated(String baseUrl, SecurityConfig securityConfig) {
         return new ProxmoxHttpClient(baseUrl, securityConfig, true);
     }
 

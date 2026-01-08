@@ -28,8 +28,11 @@ public class PveQemuVmVnc {
         );
     }
 
-    public String getVncWebsocketUrl() {
-        return ProxmoxApiBaseUrlBuilder.buildWebsocketUrl(client, nodeName, vmid);
+    public String getVncWebsocketUrl(PveQemuVmVncProxy proxy) {
+        return ProxmoxApiBaseUrlBuilder.buildWebsocketUrl(client, nodeName, vmid)+"?port="
+                + URLEncoder.encode(String.valueOf(proxy.getPort()), StandardCharsets.UTF_8)
+                + "&vncticket="
+                + URLEncoder.encode(proxy.getTicket(), StandardCharsets.UTF_8);
     }
 
     public ProxmoxRequest<PveQemuVmVncWebsocket> openVncWebsocket(PveQemuVmVncProxy vmVncProxy) {

@@ -27,6 +27,7 @@ public class PveAccessTicket {
                 "username='" + username + '\'' +
                 ", clustername='" + clustername + '\'' +
                 ", ticket='" + (ticket != null ? "***" : "null") + '\'' +
+                ", csrfPreventionToken='" + (CSRFPreventionToken != null ? "***" : "null") + '\'' +
                 '}';
     }
 }
