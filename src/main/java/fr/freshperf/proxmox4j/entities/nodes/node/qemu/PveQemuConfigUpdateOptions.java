@@ -248,7 +248,15 @@ public class PveQemuConfigUpdateOptions implements ParamsConvertible {
     public PveQemuConfigUpdateOptions localtime(Boolean localtime) { this.localtime = localtime; return this; }
     public PveQemuConfigUpdateOptions lock(String lock) { this.lock = lock; return this; }
     public PveQemuConfigUpdateOptions machine(String machine) { this.machine = machine; return this; }
+
+    @Deprecated(since = "0.1.2")
+    /*
+    *   Deprecated: Please use #memory(int); instead of the confusing String.
+    *
+    * */
     public PveQemuConfigUpdateOptions memory(String memory) { this.memory = memory; return this; }
+
+    public PveQemuConfigUpdateOptions memory(int memory) { this.memory = String.valueOf(memory); return this; }
     public PveQemuConfigUpdateOptions migrateDowntime(Double migrateDowntime) { this.migrateDowntime = migrateDowntime; return this; }
     public PveQemuConfigUpdateOptions migrateSpeed(Integer migrateSpeed) { this.migrateSpeed = migrateSpeed; return this; }
     public PveQemuConfigUpdateOptions name(String name) { this.name = name; return this; }
