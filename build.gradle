@@ -35,13 +35,13 @@ mavenPublishing {
     publishToMavenCentral()
 
     pom {
-        name = 'Proxmox4J'
+        name = 'PVE4J'
         description = 'Interact with Proxmox and Java the right way.'
         url = 'https://freshperf.fr'
         licenses {
             license {
                 name = 'GNU General Public License v3.0'
-                url = 'https://raw.githubusercontent.com/FreshPerf/Proxmox4J/refs/heads/main/LICENSE'
+                url = 'https://raw.githubusercontent.com/FreshPerf/PVE4J/refs/heads/main/LICENSE'
             }
         }
         developers {
@@ -57,9 +57,9 @@ mavenPublishing {
             }
         }
         scm {
-            url = "https://github.com/FreshPerf/Proxmox4J"
-            connection = "scm:git:git://github.com/FreshPerf/Proxmox4J.git"
-            developerConnection = "scm:git:ssh://git@github.com/FreshPerf/Proxmox4J.git"
+            url = "https://github.com/FreshPerf/PVE4J"
+            connection = "scm:git:git://github.com/FreshPerf/PVE4J.git"
+            developerConnection = "scm:git:ssh://git@github.com/FreshPerf/PVE4J.git"
         }
     }
 

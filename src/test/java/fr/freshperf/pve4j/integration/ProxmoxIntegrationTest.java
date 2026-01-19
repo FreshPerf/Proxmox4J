@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
- * Integration tests for Proxmox4J library.
+ * Integration tests for PVE4J library.
  * These tests require a real Proxmox server to be available.
  * 
  * Set the following environment variables to run these tests:

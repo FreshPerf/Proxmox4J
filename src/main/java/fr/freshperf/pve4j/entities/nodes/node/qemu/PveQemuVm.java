@@ -192,7 +192,7 @@ public class PveQemuVm {
      * @param newVmid the target VM ID (must be >= 100)
      * @param options clone options (name, storage, etc.) or null
      * @return a request returning the task for tracking
-     * @throws IllegalArgumentException if newVmid < 100
+     * @throws IllegalArgumentException if newVmid lower than 100
      */
     public ProxmoxRequest<PveTask> cloneVm(int newVmid, PveQemuCloneOptions options) {
         if (newVmid < 100) {

@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Thread manager for Proxmox4J using Virtual Threads for better scalability.
+ * Thread manager for PVE4J using Virtual Threads for better scalability.
  * This class manages the lifecycle of threads used for asynchronous tasks.
  */
 public class ProxmoxThreadManager {
@@ -24,7 +24,7 @@ public class ProxmoxThreadManager {
      * Creates a new thread manager with a default name.
      */
     public ProxmoxThreadManager() {
-        this("proxmox4j-" + INSTANCE_COUNTER.incrementAndGet());
+        this("pve4j-" + INSTANCE_COUNTER.incrementAndGet());
     }
 
     /**

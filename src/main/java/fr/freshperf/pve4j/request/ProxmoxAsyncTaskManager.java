@@ -9,7 +9,7 @@ import java.time.Duration;
 import java.util.concurrent.*;
 
 /**
- * Asynchronous task manager for Proxmox4J.
+ * Asynchronous task manager for PVE4J.
  * Uses CompletableFuture for a modern API with configurable timeouts.
  *
  * <p>This manager handles long-running Proxmox tasks (like VM cloning, backups, etc.)
@@ -32,7 +32,7 @@ public class ProxmoxAsyncTaskManager {
         this.threadManager = threadManager;
         this.scheduler = Executors.newScheduledThreadPool(1, r -> {
             Thread thread = new Thread(r);
-            thread.setName("proxmox4j-timeout-scheduler");
+            thread.setName("pve4j-timeout-scheduler");
             thread.setDaemon(true);
             return thread;
         });
