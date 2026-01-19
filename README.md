@@ -339,21 +339,21 @@ SecurityConfig allDisabled = SecurityConfig.builder()
 
 ## Documentation
 
-For detailed documentation, please refer to the [Wiki](wiki/Home):
+For detailed documentation, please refer to the [Wiki](https://github.com/FreshPerf/PVE4J/wiki/Home):
 
-- [Getting Started](wiki/Getting-Started)
-- [Authentication](wiki/Authentication)
-- [Client Configuration](wiki/Client-Configuration)
-- [Request API](wiki/Request-API)
-- [VM Management](wiki/VM-Management)
-- [Snapshot Management](wiki/Snapshot-Management)
-- [Container Management](wiki/Container-Management)
-- [Cluster Operations](wiki/Cluster-Operations)
-- [Storage Management](wiki/Storage-Management)
-- [Pool Management](wiki/Pool-Management)
-- [Access Control](wiki/Access-Control)
-- [Task Handling](wiki/Task-Handling)
-- [Error Handling](wiki/Error-Handling)
+- [Getting Started](https://github.com/FreshPerf/PVE4J/wiki/Getting-Started)
+- [Authentication](https://github.com/FreshPerf/PVE4J/wiki/Authentication)
+- [Client Configuration](https://github.com/FreshPerf/PVE4J/wiki/Client-Configuration)
+- [Request API](https://github.com/FreshPerf/PVE4J/wiki/Request-API)
+- [VM Management](https://github.com/FreshPerf/PVE4J/wiki/VM-Management)
+- [Snapshot Management](https://github.com/FreshPerf/PVE4J/wiki/Snapshot-Management)
+- [Container Management](https://github.com/FreshPerf/PVE4J/wiki/Container-Management)
+- [Cluster Operations](https://github.com/FreshPerf/PVE4J/wiki/Cluster-Operations)
+- [Storage Management](https://github.com/FreshPerf/PVE4J/wiki/Storage-Management)
+- [Pool Management](https://github.com/FreshPerf/PVE4J/wiki/Pool-Management)
+- [Access Control](https://github.com/FreshPerf/PVE4J/wiki/Access-Control)
+- [Task Handling](https://github.com/FreshPerf/PVE4J/wiki/Task-Handling)
+- [Error Handling](https://github.com/FreshPerf/PVE4J/wiki/Error-Handling)
 
 ## Contributing
 
