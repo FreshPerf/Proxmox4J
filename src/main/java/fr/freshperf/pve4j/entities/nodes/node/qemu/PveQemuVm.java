@@ -2,6 +2,7 @@ package fr.freshperf.pve4j.entities.nodes.node.qemu;
 
 import fr.freshperf.pve4j.entities.PveTask;
 import fr.freshperf.pve4j.entities.nodes.node.qemu.firewall.PveQemuFirewall;
+import fr.freshperf.pve4j.entities.nodes.node.qemu.snapshot.PveQemuSnapshots;
 import fr.freshperf.pve4j.request.ProxmoxHttpClient;
 import fr.freshperf.pve4j.request.ProxmoxRequest;
 import fr.freshperf.pve4j.request.TaskResponseTransformer;
@@ -47,6 +48,15 @@ public class PveQemuVm {
      */
     public PveQemuFirewall getFirewall() {
         return new PveQemuFirewall(client, nodeName, vmid);
+    }
+
+    /**
+     * Gets the snapshot management interface for this VM.
+     *
+     * @return the snapshots API facade
+     */
+    public PveQemuSnapshots getSnapshots() {
+        return new PveQemuSnapshots(client, nodeName, vmid);
     }
 
     /**
@@ -272,6 +282,84 @@ public class PveQemuVm {
         return new ProxmoxRequest<>(() ->
             client.put("nodes/" + nodeName + "/qemu/" + vmid + "/config")
                 .params(options.toParams())
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
+        );
+    }
+
+    /**
+     * Creates a backup of this VM.
+     *
+     * @return a request returning the task for tracking
+     */
+    public ProxmoxRequest<PveTask> backup() {
+        return backup(null);
+    }
+
+    /**
+     * Creates a backup of this VM with options.
+     *
+     * @param options backup options or null for defaults
+     * @return a request returning the task for tracking
+     */
+    public ProxmoxRequest<PveTask> backup(PveQemuBackupOptions options) {
+        return new ProxmoxRequest<>(() -> {
+            var builder = client.post("nodes/" + nodeName + "/vzdump")
+                .param("vmid", String.valueOf(vmid));
+            
+            if (options != null) {
+                builder.params(options.toParams());
+            }
+            
+            return builder.transformer(new TaskResponseTransformer())
+                .execute(PveTask.class);
+        });
+    }
+
+    /**
+     * Migrates this VM to another node.
+     *
+     * @param targetNode the target node name
+     * @return a request returning the task for tracking
+     */
+    public ProxmoxRequest<PveTask> migrate(String targetNode) {
+        return migrate(targetNode, false, null);
+    }
+
+    /**
+     * Migrates this VM to another node with options.
+     *
+     * @param targetNode the target node name
+     * @param online     true for live migration
+     * @param targetStorage target storage (null for same storage)
+     * @return a request returning the task for tracking
+     */
+    public ProxmoxRequest<PveTask> migrate(String targetNode, boolean online, String targetStorage) {
+        if (targetNode == null || targetNode.isBlank()) {
+            throw new IllegalArgumentException("targetNode cannot be null or empty");
+        }
+        return new ProxmoxRequest<>(() -> {
+            var builder = client.post("nodes/" + nodeName + "/qemu/" + vmid + "/migrate")
+                .param("target", targetNode)
+                .param("online", online ? "1" : "0");
+            
+            if (targetStorage != null && !targetStorage.isBlank()) {
+                builder.param("targetstorage", targetStorage);
+            }
+            
+            return builder.transformer(new TaskResponseTransformer())
+                .execute(PveTask.class);
+        });
+    }
+
+    /**
+     * Converts this VM to a template.
+     *
+     * @return a request returning the task for tracking
+     */
+    public ProxmoxRequest<PveTask> template() {
+        return new ProxmoxRequest<>(() ->
+            client.post("nodes/" + nodeName + "/qemu/" + vmid + "/template")
                 .transformer(new TaskResponseTransformer())
                 .execute(PveTask.class)
         );

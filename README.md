@@ -49,6 +49,7 @@ PVE4J is a Java library that provides an object-oriented wrapper around the Prox
   - Cluster status and resources
   - Next available VMID retrieval
   - Resource filtering by type
+  - **HA (High Availability) management** - List/create/delete HA resources and groups
 
 - **Node Management**
   - List all nodes
@@ -56,15 +57,21 @@ PVE4J is a Java library that provides an object-oriented wrapper around the Prox
   - Node-specific operations
 
 - **QEMU VM Management**
-  - List, create, clone, and delete VMs
+  - **VM creation** with comprehensive options (CPU, memory, disks, networks, etc.)
+  - List, clone, and delete VMs
   - VM lifecycle operations (start, stop, shutdown, reboot, reset, suspend, resume)
   - VM configuration management (get/update)
   - Disk resizing
   - VNC proxy access
-  - Firewall configuration
-  - IP Set management
+  - **Backup operations** (vzdump with options)
+  - **Migration** to other nodes (online/offline)
+  - **Convert to template**
+  - Firewall options and IP Set management
+  - **Firewall rules management** (list, create, update, delete rules)
+  - **Snapshot management** (list, create, delete, rollback, update description)
 
 - **LXC Container Management**
+  - **Container creation** with comprehensive options (templates, networks, mount points, etc.)
   - List and query containers
   - Container lifecycle operations (start, stop, shutdown, reboot, suspend, resume)
   - Container configuration retrieval
@@ -83,14 +90,18 @@ PVE4J is a Java library that provides an object-oriented wrapper around the Prox
   - Authentication domains/realms
   - Ticket-based authentication
 
+- **Pool Management**
+  - List all resource pools
+  - Create and delete pools
+  - Get pool details and members
+  - Add/remove VMs and storage to/from pools
+  - Update pool configuration
+
 ### Planned/In Progress
 
 - Additional network configuration options
-- Backup and restore operations
-- Snapshot management
-- HA (High Availability) resource management
-- Pool management
-- Additional firewall rules management
+- Restore operations from backups
+- SDN (Software Defined Networking) features
 
 ## Installation
 
@@ -259,17 +270,36 @@ The library's functionality is structured hierarchically, starting from the main
   - `.getStatus()` - Get the status of all cluster members
   - `.getResources()` - List all resources in the cluster (VMs, containers, storage, etc.)
   - `.getNextId()` - Get the next available VMID
+  - `.getHa()` - Manage High Availability
+    - `.listResources()`, `.getResource()`, `.createResource()`, `.deleteResource()`
+    - `.setResourceState()` - Change HA resource state
 - `proxmox.getNodes()` - List all nodes in the cluster
   - `.get("node-name")` - Access a specific node by its name
     - `.getQemu()` - Manage QEMU VMs on the node
+      - `.create(vmid, options)` - Create a new VM
       - `.get(vmid)` - Access a specific VM
         - `.start()`, `.stop()`, `.shutdown()`, `.reboot()`, `.reset()`
         - `.suspend()`, `.resume()`
         - `.cloneVm()`, `.resize()`, `.delete()`
         - `.updateConfig()`, `.getConfig()`, `.getStatus()`
-        - `.firewall()` - Manage VM firewall settings
+        - `.backup(options)` - Create a backup
+        - `.migrate(targetNode)` - Migrate to another node
+        - `.template()` - Convert to template
+        - `.getFirewall()` - Manage VM firewall settings
+          - `.getRules()` - Manage firewall rules
+        - `.getSnapshots()` - Manage VM snapshots
     - `.getLxc()` - Manage LXC containers on the node
+      - `.create(vmid, options)` - Create a new container
+      - `.get(vmid)` - Access a specific container
     - `.getStorage()` - Manage storage pools on the node
+- `proxmox.getPools()` - Manage resource pools
+  - `.list()` - List all resource pools
+  - `.create()` - Create a new pool
+  - `.get(poolid)` - Access a specific pool
+    - `.getDetails()` - Get pool information and members
+    - `.addVms()`, `.removeVms()` - Manage VM membership
+    - `.addStorage()`, `.removeStorage()` - Manage storage membership
+    - `.delete()` - Delete the pool
 - `proxmox.getAccess()` - Manage access control
   - `.getUsers()` - List and manage users
   - `.getGroups()` - List and manage groups
@@ -316,9 +346,11 @@ For detailed documentation, please refer to the [Wiki](wiki/Home):
 - [Client Configuration](wiki/Client-Configuration)
 - [Request API](wiki/Request-API)
 - [VM Management](wiki/VM-Management)
+- [Snapshot Management](wiki/Snapshot-Management)
 - [Container Management](wiki/Container-Management)
 - [Cluster Operations](wiki/Cluster-Operations)
 - [Storage Management](wiki/Storage-Management)
+- [Pool Management](wiki/Pool-Management)
 - [Access Control](wiki/Access-Control)
 - [Task Handling](wiki/Task-Handling)
 - [Error Handling](wiki/Error-Handling)

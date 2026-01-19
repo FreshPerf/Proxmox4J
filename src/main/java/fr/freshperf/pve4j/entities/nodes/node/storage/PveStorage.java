@@ -35,5 +35,13 @@ public record PveStorage(ProxmoxHttpClient client, String nodeName) {
         }
         return new PveStorageItem(client, nodeName, storageId);
     }
+
+    @Override
+    public String toString() {
+        return "PveStorage{" +
+                "client=" + client +
+                ", nodeName='" + nodeName + '\'' +
+                '}';
+    }
 }
 

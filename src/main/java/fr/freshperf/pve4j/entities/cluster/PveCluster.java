@@ -1,6 +1,7 @@
 package fr.freshperf.pve4j.entities.cluster;
 
 import com.google.gson.reflect.TypeToken;
+import fr.freshperf.pve4j.entities.cluster.ha.PveHa;
 import fr.freshperf.pve4j.entities.cluster.resources.PveClusterResources;
 import fr.freshperf.pve4j.request.ProxmoxHttpClient;
 import fr.freshperf.pve4j.request.ProxmoxRequest;
@@ -11,6 +12,15 @@ import java.util.List;
  * Facade for Proxmox cluster management endpoints.
  */
 public record PveCluster(ProxmoxHttpClient httpClient) {
+
+    /**
+     * Gets the HA (High Availability) management interface.
+     *
+     * @return the HA API facade
+     */
+    public PveHa getHa() {
+        return new PveHa(httpClient);
+    }
 
     /**
      * Gets the cluster index (list of available endpoints).

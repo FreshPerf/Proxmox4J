@@ -2,6 +2,7 @@ package fr.freshperf.pve4j.entities.nodes.node.qemu.firewall;
 
 import fr.freshperf.pve4j.entities.PveTask;
 import fr.freshperf.pve4j.entities.nodes.node.qemu.firewall.ipset.PveQemuFirewallIpSet;
+import fr.freshperf.pve4j.entities.nodes.node.qemu.firewall.rules.PveFirewallRules;
 import fr.freshperf.pve4j.request.ProxmoxHttpClient;
 import fr.freshperf.pve4j.request.ProxmoxRequest;
 import fr.freshperf.pve4j.request.TaskResponseTransformer;
@@ -18,6 +19,15 @@ public record PveQemuFirewall (ProxmoxHttpClient client, String nodeName, int vm
      */
     public PveQemuFirewallIpSet getIpSet() {
         return new PveQemuFirewallIpSet(client, nodeName, vmid);
+    }
+
+    /**
+     * Gets the firewall rules management interface.
+     *
+     * @return the firewall rules API facade
+     */
+    public PveFirewallRules getRules() {
+        return new PveFirewallRules(client, nodeName, vmid);
     }
 
     private String path(String suffix) {

@@ -1,8 +1,10 @@
 package fr.freshperf.pve4j.entities.nodes.node.lxc;
 
 import com.google.gson.reflect.TypeToken;
+import fr.freshperf.pve4j.entities.PveTask;
 import fr.freshperf.pve4j.request.ProxmoxHttpClient;
 import fr.freshperf.pve4j.request.ProxmoxRequest;
+import fr.freshperf.pve4j.request.TaskResponseTransformer;
 
 import java.util.List;
 
@@ -34,6 +36,30 @@ public record PveLxc(ProxmoxHttpClient client, String nodeName) {
             throw new IllegalArgumentException("VMID must be a positive integer");
         }
         return new PveLxcContainer(client, nodeName, vmid);
+    }
+
+    /**
+     * Creates a new LXC container.
+     *
+     * @param vmid    the container ID (must be >= 100)
+     * @param options container creation options (ostemplate is required)
+     * @return a request returning the task for tracking
+     * @throws IllegalArgumentException if vmid is less than 100 or options is null
+     */
+    public ProxmoxRequest<PveTask> create(int vmid, PveLxcCreateOptions options) {
+        if (vmid < 100) {
+            throw new IllegalArgumentException("VMID must be >= 100");
+        }
+        if (options == null) {
+            throw new IllegalArgumentException("options cannot be null - ostemplate is required");
+        }
+
+        return new ProxmoxRequest<>(() ->
+            client.post("nodes/" + nodeName + "/lxc")
+                .params(options.toParams(vmid))
+                .transformer(new TaskResponseTransformer())
+                .execute(PveTask.class)
+        );
     }
 }
 

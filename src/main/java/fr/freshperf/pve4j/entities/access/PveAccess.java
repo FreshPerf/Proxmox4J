@@ -1,5 +1,6 @@
 package fr.freshperf.pve4j.entities.access;
 
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import fr.freshperf.pve4j.request.ProxmoxHttpClient;
 import fr.freshperf.pve4j.request.ProxmoxRequest;
@@ -99,6 +100,17 @@ public record PveAccess(ProxmoxHttpClient httpClient) {
     public ProxmoxRequest<List<PveAccessDomain>> getDomains() {
         return new ProxmoxRequest<>(() -> 
             httpClient.get("access/domains").executeList(new TypeToken<List<PveAccessDomain>>(){})
+        );
+    }
+
+    /**
+     * Get auth server configuration.
+     *
+     * @return a request returning the domain
+     */
+    public ProxmoxRequest<JsonElement> getDomain(String realm) {
+        return new ProxmoxRequest<>(() ->
+            httpClient.get("access/domains/"+realm).execute(JsonElement.class)
         );
     }
 }

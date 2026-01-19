@@ -95,5 +95,16 @@ public class PveNode {
     public PveStorage getStorage() {
         return pveStorage;
     }
+
+    @Override
+    public String toString() {
+        return "PveNode{" +
+                "client=" + client +
+                ", nodeName='" + nodeName + '\'' +
+                ", pveQemu=" + pveQemu +
+                ", pveLxc=" + pveLxc +
+                ", pveStorage=" + pveStorage +
+                '}';
+    }
 }
 

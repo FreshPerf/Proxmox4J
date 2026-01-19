@@ -7,6 +7,7 @@ import fr.freshperf.pve4j.entities.access.PveAccess;
 import fr.freshperf.pve4j.entities.access.PveAccessTicket;
 import fr.freshperf.pve4j.entities.cluster.PveCluster;
 import fr.freshperf.pve4j.entities.nodes.PveNodes;
+import fr.freshperf.pve4j.entities.pools.PvePools;
 import fr.freshperf.pve4j.request.ProxmoxHttpClient;
 import fr.freshperf.pve4j.request.ProxmoxRequest;
 import fr.freshperf.pve4j.throwable.ProxmoxAPIError;
@@ -23,6 +24,7 @@ public class Proxmox {
     private final PveCluster pveCluster;
     private final PveNodes pveNodes;
     private final PveAccess pveAccess;
+    private final PvePools pvePools;
 
     /**
      * Creates a new Proxmox client with API key authentication.
@@ -40,6 +42,7 @@ public class Proxmox {
         this.pveCluster = new PveCluster(httpClient);
         this.pveNodes = new PveNodes(httpClient);
         this.pveAccess = new PveAccess(httpClient);
+        this.pvePools = new PvePools(httpClient);
     }
 
     /**
@@ -52,6 +55,7 @@ public class Proxmox {
         this.pveCluster = new PveCluster(httpClient);
         this.pveNodes = new PveNodes(httpClient);
         this.pveAccess = new PveAccess(httpClient);
+        this.pvePools = new PvePools(httpClient);
     }
 
     /**
@@ -223,6 +227,15 @@ public class Proxmox {
      */
     public PveAccess getAccess() {
         return pveAccess;
+    }
+
+    /**
+     * Gets the resource pools management interface.
+     *
+     * @return the pools API facade
+     */
+    public PvePools getPools() {
+        return pvePools;
     }
 
     /**
